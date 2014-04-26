@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- You may freely edit this file. See commented blocks below for --><!-- some examples of how to customize the build. --><!-- (If you delete it and reopen the project it will be recreated.) -->
+<project name="ShoutcastPlayerApplet2" default="default" basedir=".">
+    <description>Builds, tests, and runs the project ShoutcastPlayerApplet2.</description>
+    <import file="nbproject/build-impl.xml"/>
+    <!--
+
+    There exist several targets which are by default empty and which can be 
+    used for execution of your tasks. These targets are usually executed 
+    before and after some main targets. They are: 
+
+      -pre-init:                 called before initialization of project properties
+      -post-init:                called after initialization of project properties
+      -pre-compile:              called before javac compilation
+      -post-compile:             called after javac compilation
+      -pre-compile-single:       called before javac compilation of single file
+      -post-compile-single:      called after javac compilation of single file
+      -pre-compile-test:         called before javac compilation of JUnit tests
+      -post-compile-test:        called after javac compilation of JUnit tests
+      -pre-compile-test-single:  called before javac compilation of single JUnit test
+      -post-compile-test-single: called after javac compilation of single JUunit test
+      -pre-jar:                  called before JAR building
+      -post-jar:                 called after JAR building
+      -post-clean:               called after cleaning build products
+
+    (Targets beginning with '-' are not intended to be called on their own.)
+
+    Example of inserting an obfuscator after compilation could look like this:
+
+        <target name="-post-compile">
+            <obfuscate>
+                <fileset dir="${build.classes.dir}"/>
+            </obfuscate>
+        </target>
+
+    For list of available properties check the imported 
+    nbproject/build-impl.xml file. 
+
+
+    Another way to customize the build is by overriding existing main targets.
+    The targets of interest are: 
+
+      -init-macrodef-javac:     defines macro for javac compilation
+      -init-macrodef-junit:     defines macro for junit execution
+      -init-macrodef-debug:     defines macro for class debugging
+      -init-macrodef-java:      defines macro for class execution
+      -do-jar-with-manifest:    JAR building (if you are using a manifest)
+      -do-jar-without-manifest: JAR building (if you are not using a manifest)
+      run:                      execution of project 
+      -javadoc-build:           Javadoc generation
+      test-report:              JUnit report generation
+
+    An example of overriding the target for project execution could look like this:
+
+        <target name="run" depends="ShoutcastPlayerApplet2-impl.jar">
+            <exec dir="bin" executable="launcher.exe">
+                <arg file="${dist.jar}"/>
+            </exec>
+        </target>
+
+    Notice that the overridden target depends on the jar target and not only on 
+    the compile target as the regular run target does. Again, for a list of available 
+    properties which you can use, check the target you are overriding in the
+    nbproject/build-impl.xml file. 
+
+    -->
+   
+   <target name="check-gui-jars">
+        <condition property="gui-jars-compiled">
+            <isset property="ok"/>
+        </condition>
+    </target>
+   <target name="compile-and-sign-gui-jars" depends="check-gui-jars" unless="gui-jars-compiled">
+        
+        <!-- dir for applets downloadable by clients, i.e. outside WEB-INF -->
+        <property name="ok" value="pass"/>       
+       
+        <echo>Re-packaging tier applets</echo>
+        <!-- Copy libraries within the applet directory -->    
+        
+        <macrodef name="rejar">
+            <attribute name="file"/>
+            <attribute name="tofile"/>
+            <attribute name="title" default=""/>
+            <attribute name="version" default=""/>
+            <sequential>
+                <jar destfile="@{tofile}"
+                     compress="${jar.compress}">
+                    <zipfileset includes="**" src="@{file}"/>
+                    <manifest>
+                        <attribute name="Trusted-Library" value="true" />
+                        <attribute name="Implementation-Title" value="@{title}"/>
+                        <attribute name="Implementation-Version" value="@{version}"/> 
+                    </manifest>
+                </jar>
+            </sequential>
+        </macrodef>
+        
+        <!-- Copy dependencies -->
+        <rejar
+            file="${file.reference.jorbis-0.0.17.jar}"
+            tofile="${dist.dir}/jorbis.jar"
+            title="jOrbis"
+            version="0.0.17"
+        />
+        <rejar
+            file="${file.reference.vorbisspi1.0.3.jar}"
+            tofile="${dist.dir}/vorbisspi.jar"
+            title="VorbisSPI"
+            version="1.0.3"
+        />
+        <rejar
+            file="${file.reference.jflac-1.3.jar}"
+            tofile="${dist.dir}/jflac.jar"
+            title="jFLAC"
+            version="1.3"
+        />
+        <rejar
+            file="${file.reference.jaad-mod-0.8.4.jar}"
+            tofile="${dist.dir}/jaad-mod.jar"
+            title="JAAD"
+            version="0.8.4.1"
+        />
+        <rejar
+            file="${file.reference.jl1.0.1.jar}"
+            tofile="${dist.dir}/jl.jar"
+            title="JLayer"
+            version="1.0.1"
+        />
+        <rejar
+            file="${file.reference.mp3spi1.9.4.jar}"
+            tofile="${dist.dir}/mp3spi.jar"
+            title="MP3SPI"
+            version="1.9.4"
+        />
+        <rejar
+            file="${file.reference.tritonus_share-0.3.6.1.jar}"
+            tofile="${dist.dir}/tritonus-share.jar"
+            title="Tritonus plug-ins"
+            version="0.3.6.1"
+        />
+        <rejar
+            file="${file.reference.basicplayer3.0.jar}"
+            tofile="${dist.dir}/basicplayer.jar"
+            title="Javazoom BasicPlayer"
+            version="3.0"
+        />
+        <rejar
+            file="${file.reference.commons-logging-api-1.1.1.jar}"
+            tofile="${dist.dir}/commons-logging-api.jar"
+            title="Apache Commons Logging"
+            version="1.1.1"
+        />
+
+   </target>
+      
+    <target name="-post-compile" depends="compile-and-sign-gui-jars"/>
+        
+    <target name="-post-jar">
+
+        <echo>Trimming Scala libraries</echo>
+        <!-- Trim fatness in scala libraries-->
+        <!--<java jar="lib/proguard.jar"
+            fork="true"
+            failonerror="true">
+            <arg line="-injars '${dist.dir}/shoutcastplayerapplet2.jar'"/>
+            <arg line="-outjars '${java.io.tmpdir}/shoutcastplayerapplet2.jar_'"/>
+            <arg line="-injars '${scala.home}/lib/scala-library.jar'"/>
+            <arg line="-outjars '${dist.dir}/scala-library-min.jar'"/>
+            <arg line="-injars '${scala.home}/lib/scala-swing.jar'"/>
+            <arg line="-outjars '${dist.dir}/scala-swing-min.jar'"/>  
+            <arg line="-libraryjars '${java.home}/lib/rt.jar'"/>
+            <arg line="-keep public class scala.ScalaObject"/>
+            <arg line="-keep class biz.ddcr.**"/>
+            <arg line="-keepclassmembers class biz.ddcr.** { *; }"/>
+            <arg line="-keep public class java.**"/>
+            <arg line="-keep public class javax.**"/>
+            <arg line="-keepnames class scala.**"/>
+            <arg line="-dontoptimize -dontobfuscate -dontpreverify"/>
+            <arg line="-dontwarn -ignorewarnings -keepattributes"/>
+        </java>
+
+        <echo>Updating main applet descriptor</echo>
+        <fileset id="dist.lib.dir" dir="${dist.dir}">
+            <exclude name="*shoutcastplayerapplet2*"/>
+        </fileset>
+        <pathconvert property="lib.manifest.classpath" pathsep=" " refid="dist.lib.dir">
+            <flattenmapper/>
+        </pathconvert>
+        <jar update="true" destfile="${dist.jar}" compress="${jar.compress}">
+            <zipfileset prefix="resources" dir="./resources"/>
+            <manifest>
+                <attribute name="Class-Path" value="${lib.manifest.classpath}"/>
+                <attribute name="Trusted-Only" value="true" />
+                <attribute name="Permissions" value="all-permissions" />
+                <attribute name="Codebase" value="*" />
+                <attribute name="Application-Name" value="ShoutcastPlayerApplet2" />
+                <attribute name="Application-Library-Allowable-Codebase" value="*" />
+                <attribute name="Caller-Allowable-Codebase" value="*" />
+            </manifest>
+        </jar>
+
+        <echo>Signing applets</echo>
+        <signjar
+            alias="shampoo"
+            storepass="test123"
+            keypass="test123">
+            <path>
+                <fileset dir="${dist.dir}" includes="*.jar" />
+            </path>
+        </signjar>-->
+    </target>
+    
+</project>

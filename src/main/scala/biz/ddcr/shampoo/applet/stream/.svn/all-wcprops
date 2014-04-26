@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/shoutcast-applet~source-code-repository/!svn/ver/4/v2/src/biz/ddcr/shampoo/applet/stream
+END
+M3UStreamingEndpoint.scala
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/shoutcast-applet~source-code-repository/!svn/ver/3/v2/src/biz/ddcr/shampoo/applet/stream/M3UStreamingEndpoint.scala
+END
+TypedAudioStream.scala
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/shoutcast-applet~source-code-repository/!svn/ver/3/v2/src/biz/ddcr/shampoo/applet/stream/TypedAudioStream.scala
+END
+RawStreamingEndpoint.scala
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/shoutcast-applet~source-code-repository/!svn/ver/3/v2/src/biz/ddcr/shampoo/applet/stream/RawStreamingEndpoint.scala
+END
+CodecSPIWorkaround.scala
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/shoutcast-applet~source-code-repository/!svn/ver/4/v2/src/biz/ddcr/shampoo/applet/stream/CodecSPIWorkaround.scala
+END
+BasicStreamingPlayer.scala
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/shoutcast-applet~source-code-repository/!svn/ver/3/v2/src/biz/ddcr/shampoo/applet/stream/BasicStreamingPlayer.scala
+END
+PLSStreamingEndpoint.scala
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/shoutcast-applet~source-code-repository/!svn/ver/3/v2/src/biz/ddcr/shampoo/applet/stream/PLSStreamingEndpoint.scala
+END
+StreamingEndpoint.scala
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/shoutcast-applet~source-code-repository/!svn/ver/3/v2/src/biz/ddcr/shampoo/applet/stream/StreamingEndpoint.scala
+END
